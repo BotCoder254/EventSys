@@ -1,0 +1,44 @@
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold">Events</h2>
+        <a href="/events/create" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+            <i class="fas fa-plus-circle mr-2"></i> Create Event
+        </a>
+    </div>
+    <div class="mb-6">
+        <form action="/events" method="GET" class="flex space-x-4">
+            <input type="text" name="search" placeholder="Search events..." value="<%= search %>" class="flex-grow px-3 py-2 border rounded-lg">
+            <select name="category" class="px-3 py-2 border rounded-lg">
+                <option value="">All Categories</option>
+                <option value="Music" <%= category === 'Music' ? 'selected' : '' %>>Music</option>
+                <option value="Sports" <%= category === 'Sports' ? 'selected' : '' %>>Sports</option>
+                <option value="Technology" <%= category === 'Technology' ? 'selected' : '' %>>Technology</option>
+                <option value="Art" <%= category === 'Art' ? 'selected' : '' %>>Art</option>
+            </select>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-search mr-2"></i> Search
+            </button>
+        </form>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% events.forEach(event => { %>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="<%= event.image || '/images/default-event.jpg' %>" alt="<%= event.title %>" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2"><%= event.title %></h3>
+                    <p class="text-gray-600 mb-2"><i class="far fa-calendar-alt mr-2"></i><%= event.date.toLocaleDateString() %></p>
+                    <p class="text-gray-600 mb-2"><i class="fas fa-map-marker-alt mr-2"></i><%= event.location %></p>
+                    <p class="text-gray-600 mb-4"><i class="fas fa-user mr-2"></i>By <%= event.creator.name %></p>
+                    <div class="flex flex-wrap mb-4">
+                        <% event.categories.forEach(category => { %>
+                            <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm mr-2 mb-2"><%= category %></span>
+                        <% }) %>
+                    </div>
+                    <a href="/events/<%= event._id %>" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>

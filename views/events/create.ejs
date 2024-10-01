@@ -1,0 +1,34 @@
+<div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="p-6">
+        <h2 class="text-2xl font-bold mb-6">Create Event</h2>
+        <form action="/events" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="title" class="block text-gray-700 font-bold mb-2">Event Title</label>
+                <input type="text" id="title" name="title" required class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+                <textarea id="description" name="description" required class="w-full px-3 py-2 border rounded-lg" rows="4"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="date" class="block text-gray-700 font-bold mb-2">Date</label>
+                <input type="date" id="date" name="date" required class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="location" class="block text-gray-700 font-bold mb-2">Location</label>
+                <input type="text" id="location" name="location" required class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="categories" class="block text-gray-700 font-bold mb-2">Categories (comma-separated)</label>
+                <input type="text" id="categories" name="categories" required class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="mb-6">
+                <label for="image" class="block text-gray-700 font-bold mb-2">Event Image</label>
+                <input type="file" id="image" name="image" accept="image/*" class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-plus-circle mr-2"></i> Create Event
+            </button>
+        </form>
+    </div>
+</div>

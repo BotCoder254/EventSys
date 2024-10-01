@@ -1,0 +1,23 @@
+<div class="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out" x-data="{ open: false }" @click.away="open = false">
+    <a href="/" class="text-white flex items-center space-x-2 px-4">
+        <i class="fas fa-calendar-alt text-2xl"></i>
+        <span class="text-2xl font-extrabold">EventSys</span>
+    </a>
+
+    <nav class="space-y-2">
+        <a href="/" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <i class="fas fa-home mr-2"></i> Home
+        </a>
+        <a href="/events" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <i class="fas fa-calendar-week mr-2"></i> Events
+        </a>
+        <a href="/events/create" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <i class="fas fa-plus-circle mr-2"></i> Create Event
+        </a>
+        <% if (currentUser) { %>
+            <a href="/users/profile" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                <i class="fas fa-user mr-2"></i> Profile
+            </a>
+        <% } %>
+    </nav>
+</div>

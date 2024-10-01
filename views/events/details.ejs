@@ -1,0 +1,31 @@
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <img src="<%= event.image || '/images/default-event.jpg' %>" alt="<%= event.title %>" class="w-full h-64 object-cover">
+    <div class="p-6">
+        <h2 class="text-3xl font-bold mb-4"><%= event.title %></h2>
+        <div class="flex flex-wrap mb-4">
+            <% event.categories.forEach(category => { %>
+                <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm mr-2 mb-2"><%= category %></span>
+            <% }) %>
+        </div>
+        <p class="text-gray-600 mb-2"><i class="far fa-calendar-alt mr-2"></i><%= event.date.toLocaleDateString() %></p>
+        <p class="text-gray-600 mb-2"><i class="fas fa-map-marker-alt mr-2"></i><%= event.location %></p>
+        <p class="text-gray-600 mb-4"><i class="fas fa-user mr-2"></i>Organized by <%= event.creator.name %></p>
+        <p class="text-gray-800 mb-6"><%= event.description %></p>
+        <% if (currentUser && !event.attendees.includes(currentUser._id)) { %>
+            <form action="/events/<%= event._id %>/rsvp" method="POST">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                    <i class="fas fa-calendar-check mr-2"></i> RSVP
+                </button>
+            </form>
+        <% } %>
+        <h3 class="text-xl font-semibold mt-8 mb-4">Attendees (<%= event.attendees.length %>)</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <% event.attendees.forEach(attendee => { %>
+                <div class="flex flex-col items-center">
+                    <img src="<%= attendee.profilePicture %>" alt="<%= attendee.name %>" class="w-16 h-16 rounded-full mb-2">
+                    <span class="text-sm text-center"><%= attendee.name %></span>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
