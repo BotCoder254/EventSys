@@ -40,10 +40,14 @@ const io = socketIo(server);
 
 // Connect to MongoDB
 
-   mongoose.connect(process.env.MONGODB_URI, {
-     useNewUrlParser: true,
-     useUnifiedTopology: true,
-   });
+ 
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://Telvin:soulmind254@cluster0.b9jnw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+
+    useNewUrlParser: true,
+
+    useUnifiedTopology: true,
+
+});
 
 
 
