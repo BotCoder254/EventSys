@@ -1,0 +1,19 @@
+<nav class="text-gray-500 py-3 rounded-md w-full">
+    <ol class="list-reset flex">
+        <li><a href="/" class="text-blue-600 hover:text-blue-700">Home</a></li>
+        <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs.length > 0) { %>
+            <% breadcrumbs.forEach((crumb, index) => { %>
+                <li><span class="mx-2">/</span></li>
+                <li>
+                    <% if (index === breadcrumbs.length - 1) { %>
+                        <span class="text-gray-500"><%= crumb.label %></span>
+                        <% } else { %>
+                            <a href="<%= crumb.url %>" class="text-blue-600 hover:text-blue-700">
+                                <%= crumb.label %>
+                            </a>
+                            <% } %>
+                </li>
+                <% }) %>
+                    <% } %>
+    </ol>
+</nav>

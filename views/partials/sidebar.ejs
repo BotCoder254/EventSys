@@ -1,23 +1,54 @@
-<div class="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out" x-data="{ open: false }" @click.away="open = false">
+<div class="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out sidebar" x-data="{ open: false }" @click.away="open = false">
     <a href="/" class="text-white flex items-center space-x-2 px-4">
-        <i class="fas fa-calendar-alt text-2xl"></i>
+        <img src="/images/logo.png" alt="EventSys Logo" class="h-8 w-auto">
         <span class="text-2xl font-extrabold">EventSys</span>
     </a>
 
-    <nav class="space-y-2">
-        <a href="/" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-            <i class="fas fa-home mr-2"></i> Home
-        </a>
-        <a href="/events" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-            <i class="fas fa-calendar-week mr-2"></i> Events
-        </a>
-        <a href="/events/create" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-            <i class="fas fa-plus-circle mr-2"></i> Create Event
-        </a>
-        <% if (currentUser) { %>
-            <a href="/users/profile" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-                <i class="fas fa-user mr-2"></i> Profile
-            </a>
+    <% if (currentUser) { %>
+        <div class="px-4 py-2 border-b border-gray-700">
+            <div class="flex items-center space-x-3">
+                <img src="<%= currentUser.profilePicture %>" alt="<%= currentUser.name %>" class="w-10 h-10 rounded-full">
+                <div>
+                    <p class="text-sm font-medium">
+                        <%= currentUser.name %>
+                    </p>
+                    <p class="text-xs text-gray-400">
+                        <%= currentUser.username %>
+                    </p>
+                </div>
+            </div>
+        </div>
         <% } %>
-    </nav>
+
+            <nav class="space-y-2">
+                <% if (currentUser) { %>
+                    <a href="/users/dashboard" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-chart-line mr-2"></i> Dashboard
+                    </a>
+                    <a href="/users/profile" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-user mr-2"></i> Profile
+                    </a>
+                    <a href="/users/notifications" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-bell mr-2"></i> Notifications
+                    </a>
+                    <a href="/users/settings" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-cog mr-2"></i> Settings
+                    </a>
+                    <a href="/auth/logout" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </a>
+                    <% } %>
+                        <a href="/events" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-calendar-week mr-2"></i> Events
+                        </a>
+                        <a href="/events/create" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-plus-circle mr-2"></i> Create Event
+                        </a>
+                        <a href="/about" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-info-circle mr-2"></i> About
+                        </a>
+                        <a href="/contact" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-envelope mr-2"></i> Contact
+                        </a>
+            </nav>
 </div>

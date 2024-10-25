@@ -1,0 +1,106 @@
+<div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="p-6">
+        <h2 class="text-2xl font-bold mb-6">Edit Event</h2>
+        <form action="/events/<%= event._id %>?_method=PUT" method="POST" enctype="multipart/form-data" id="editEventForm">
+            <!-- Step 1: Basic Information -->
+            <div class="step" data-step="1">
+                <div class="mb-4">
+                    <label for="title" class="block text-gray-700 font-bold mb-2">Event Title</label>
+                    <input type="text" id="title" name="title" value="<%= event.title %>" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+                    <textarea id="description" name="description" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"><%= event.description %></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="date" class="block text-gray-700 font-bold mb-2">Date</label>
+                    <input type="datetime-local" id="date" name="date" value="<%= event.date.toISOString().slice(0, 16) %>" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Step 2: Location and Categories -->
+            <div class="step hidden" data-step="2">
+                <div class="mb-4">
+                    <label for="location" class="block text-gray-700 font-bold mb-2">Location</label>
+                    <input type="text" id="location" name="location" value="<%= event.location %>" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="categories" class="block text-gray-700 font-bold mb-2">Categories</label>
+                    <select id="categories" name="categories" multiple class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <option value="Music" <%= event.categories.includes('Music') ? 'selected' : '' %>>Music</option>
+                        <option value="Sports" <%= event.categories.includes('Sports') ? 'selected' : '' %>>Sports</option>
+                        <option value="Technology" <%= event.categories.includes('Technology') ? 'selected' : '' %>>Technology</option>
+                        <option value="Art" <%= event.categories.includes('Art') ? 'selected' : '' %>>Art</option>
+                        <option value="Food" <%= event.categories.includes('Food') ? 'selected' : '' %>>Food</option>
+                        <option value="Business" <%= event.categories.includes('Business') ? 'selected' : '' %>>Business</option>
+                        <option value="Education" <%= event.categories.includes('Education') ? 'selected' : '' %>>Education</option>
+                        <option value="Other" <%= event.categories.includes('Other') ? 'selected' : '' %>>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Step 3: Additional Details -->
+            <div class="step hidden" data-step="3">
+                <div class="mb-4">
+                    <label for="price" class="block text-gray-700 font-bold mb-2">Price</label>
+                    <input type="number" id="price" name="price" value="<%= event.price %>" min="0" step="0.01" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="maxAttendees" class="block text-gray-700 font-bold mb-2">Max Attendees (0 for unlimited)</label>
+                    <input type="number" id="maxAttendees" name="maxAttendees" value="<%= event.maxAttendees %>" min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-6">
+                    <label for="image" class="block text-gray-700 font-bold mb-2">Event Image</label>
+                    <input type="file" id="image" name="image" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <div class="flex justify-between mt-6">
+                <button type="button" id="prevBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 hidden">
+                    Previous
+                </button>
+                <button type="button" id="nextBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Next
+                </button>
+                <button type="submit" id="submitBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 hidden">
+                    <i class="fas fa-save mr-2"></i> Update Event
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    function showStep(step) {
+        document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+        document.querySelector(`.step[data-step="${step}"]`).classList.remove('hidden');
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+
+        prevBtn.classList.toggle('hidden', step === 1);
+        nextBtn.classList.toggle('hidden', step === totalSteps);
+        submitBtn.classList.toggle('hidden', step !== totalSteps);
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+
+    showStep(currentStep);
+</script>
+

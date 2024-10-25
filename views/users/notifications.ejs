@@ -1,0 +1,38 @@
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Notifications</h1>
+    <% if (notifications.length > 0) { %>
+        <ul class="space-y-4">
+            <% notifications.forEach(notification => { %>
+                <li class="bg-white rounded-lg shadow-md p-4 flex items-start">
+                    <i class="fas fa-bell text-blue-500 mr-3 mt-1"></i>
+                    <div>
+                        <p class="font-semibold">
+                            <a href="<%= notification.link %>" class="text-blue-500 hover:underline" onclick="markAsRead('<%= notification._id %>')">
+                                <%= notification.message %>
+                            </a>
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            <%= notification.createdAt.toLocaleString() %>
+                        </p>
+                    </div>
+                </li>
+                <% }) %>
+        </ul>
+        <% } else { %>
+            <p class="text-gray-600">You have no new notifications.</p>
+            <% } %>
+</div>
+
+<script>
+    function markAsRead(notificationId) {
+        fetch(`/users/notifications/${notificationId}/read`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+    }
+</script>

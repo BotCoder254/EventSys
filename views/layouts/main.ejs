@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= typeof title !== 'undefined' ? title + ' - EventSys' : 'EventSys' %></title>
+    <title>
+        <%= typeof title !== 'undefined' ? title + ' - EventSys' : 'EventSys' %>
+    </title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/custom.css">
+    <script src="https://cdn.jsdelivr.net/npm/autocomplete.js/dist/autocomplete.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from('.hero-section', {
+                opacity: 0,
+                y: -50,
+                duration: 1
+            });
+            gsap.from('.card', {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                stagger: 0.2
+            });
+            gsap.from('.navbar', {
+                opacity: 0,
+                y: -20,
+                duration: 1
+            });
+        });
+    </script>
 </head>
 <style>
     @media (max-width: 640px) {
@@ -14,65 +43,83 @@
             grid-template-columns: repeat(1, minmax(0, 1fr));
         }
     }
+    
     @media (min-width: 641px) and (max-width: 768px) {
         .responsive-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
     }
+    
     @media (min-width: 769px) {
         .responsive-grid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
         }
     }
+    
     .loader {
         border-top-color: #3498db;
-        -webkit-animation: spinner 1.5s linear infinite;
         animation: spinner 1.5s linear infinite;
     }
-
-    @-webkit-keyframes spinner {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-    }
-
+    
     @keyframes spinner {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    
+    .sidebar {
+        height: 100vh;
     }
 </style>
-<body class="bg-gray-100 flex h-screen">
-    <%- include('../partials/sidebar') %>
-    <div class="flex-1 flex flex-col overflow-hidden">
-        <%- include('../partials/header') %>
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-6">
-            <%- body %>
-        </main>
-        <%- include('../partials/footer') %>
-    </div>
-    <div id="loading-indicator" class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center hidden">
-        <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-        <h2 class="text-center text-white text-xl font-semibold">Loading...</h2>
-        <p class="w-1/3 text-center text-white">This may take a few seconds, please don't close this page.</p>
-    </div>
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('navigation', () => ({
-                open: false,
-                toggle() {
-                    this.open = !this.open;
-                },
-                close() {
-                    this.open = false;
-                }
-            }));
-        });
-        window.addEventListener('load', function() {
-            document.getElementById('loading-indicator').style.display = 'none';
-        });
-    
-        window.addEventListener('beforeunload', function() {
-            document.getElementById('loading-indicator').style.display = 'flex';
-        });
-    </script>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <%- include('../partials/header') %>
+
+        <div class="flex-grow">
+            <% if (currentUser) { %>
+                <div class="flex">
+                    <%- include('../partials/sidebar') %>
+                        <main class="flex-1 p-6">
+                            <% if (typeof messages !== 'undefined') { %>
+                                <%- include('../partials/flash-messages') %>
+                                    <% } %>
+                                        <%- body %>
+                        </main>
+                </div>
+                <% } else { %>
+                    <main>
+                        <% if (typeof messages !== 'undefined') { %>
+                            <%- include('../partials/flash-messages') %>
+                                <% } %>
+                                    <%- body %>
+                    </main>
+                    <% if (title === 'Home') { %>
+                        <%- include('../partials/footer') %>
+                            <% } %>
+                                <% } %>
+        </div>
+
+        <div id="loading-spinner" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden">
+            <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+        </div>
+
+        <script>
+            AOS.init();
+
+            function showLoadingSpinner() {
+                document.getElementById('loading-spinner').classList.remove('hidden');
+            }
+
+            function hideLoadingSpinner() {
+                document.getElementById('loading-spinner').classList.add('hidden');
+            }
+
+            document.addEventListener('submit', showLoadingSpinner);
+            window.addEventListener('load', hideLoadingSpinner);
+        </script>
 </body>
+
 </html>

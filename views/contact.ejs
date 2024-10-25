@@ -1,0 +1,22 @@
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Contact Us</h1>
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <form action="/contact" method="POST">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input type="text" id="name" name="name" required class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+                <input type="email" id="email" name="email" required class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="message" class="block text-gray-700 font-bold mb-2">Message</label>
+                <textarea id="message" name="message" required class="w-full px-3 py-2 border rounded-lg" rows="4"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-paper-plane mr-2"></i> Send Message
+            </button>
+        </form>
+    </div>
+</div>
